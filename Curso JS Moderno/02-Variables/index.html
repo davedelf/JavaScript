@@ -19,6 +19,13 @@
     <script src="js/01-app.js"></script>
     <script src="js/02-app.js"></script>
     <script src="js/03-app.js"></script>
+
+    <!--No podemos tener variables con el mismo nombre, aún así las tengamos en diferentes scripts, ya que
+    aunque estén en diferentes archivos, al llamar a los scripts en el html las mismas toman el mismo scope y 
+    se pisan entre ellas. Es por ello que no podemos tener variables con el mismo nombre, ni dentro de un mismo
+    script ni dentro del scope del html.
+    
+    En general, suele utilizarse más const que let, aunque parezca que let es más versatil.-->>
     
 </body>
 </html>
