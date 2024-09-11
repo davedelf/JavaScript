@@ -12,6 +12,16 @@ cargarEventListeners();
 function cargarEventListeners() {
   //Cuando agregamos un curso
   listaCursos.addEventListener("click", agregarCurso);
+
+  //Elimina cursos del carrito
+  carrito.addEventListener("click", eliminarCurso);
+
+  //Vaciar el carrito. Se elimina del array y del html
+  vaciarCarritoBtn.addEventListener("click", () => {
+    console.log("Vaciando carrito");
+    articulosCarrito = []; //Reseteamos el array
+    limpiarHTML(); //Limpiamos el html para eliminar todo
+  });
 }
 
 function agregarCurso(e) {
@@ -27,6 +37,23 @@ function agregarCurso(e) {
    */
 }
 
+//Elimina curso del carrito
+function eliminarCurso(e) {
+  console.log(e.target.classList);
+  if (e.target.classList.contains("borrar-curso")) {
+    const cursoId = e.target.getAttribute("data-id");
+
+    //Elimina del array articulosCarrito por el data-id
+    articulosCarrito = articulosCarrito.filter((curso) => curso.id !== cursoId); //Trae todos aquellos que no contengan ese id, es decir, lo elimina y me trae los otros
+
+    //Ahora llamo la función para cargar el HTML nuevamente,es decir, actualizarlo
+
+    carritoHTML(); //Volvemos a iterar sobre el carrito y mostramos su HTML
+
+    console.log(articulosCarrito);
+  }
+}
+
 //Lee el contenido del HTML al que le dimos click y extrae la información del curso
 function leerDatosCurso(curso) {
   //Crear un objeto con el contenido del curso actual
@@ -38,8 +65,25 @@ function leerDatosCurso(curso) {
     cantidad: 1,
   };
 
+  //Revisa si un elemento ya existe en el carrito
+  const existe = articulosCarrito.some((curso) => curso.id === infoCurso.id);
+  if (existe) {
+    //Actualizamos la cantidad
+    const cursos = articulosCarrito.map((curso) => {
+      if (curso.id === infoCurso.id) {
+        curso.cantidad++;
+        return curso; //Retorna el objeto actualizado
+      } else {
+        return curso; //Retorna los objetos que no están duplicados
+      }
+    });
+    articulosCarrito = [...cursos];
+  } else {
+    //Agregamos el curso al carrito
+    articulosCarrito = [...articulosCarrito, infoCurso];
+  }
+
   //Usamos Spread Operator para no ir perdiendo los articulos en cada llamada de la funcióm. No queremos perder la referencia a los cursos que ya hemos agregado al carrito
-  articulosCarrito = [...articulosCarrito, infoCurso];
   carritoHTML();
   console.log(articulosCarrito);
 }
@@ -50,11 +94,16 @@ function carritoHTML() {
   limpiarHTML();
   //Recorre el carrito y genera el HTML
   articulosCarrito.forEach((curso) => {
+    //Una vez que vemos que funciona, conviene mejorarlo usando Destructuring, es decir crear una constate con los datos del objeto
+    const { imagen, titulo, precio, cantidad, id } = curso;
+
     const row = document.createElement("tr");
     row.innerHTML = `
-    <td>
-        ${curso.titulo}
-    </td>
+    <td><img src="${imagen}" width=100></td>
+    <td>${titulo}</td>
+    <td>${precio}</td>
+    <td>${cantidad}</td>
+    <td><a href="#" class="borrar-curso" data-id="${id}"> X </a></td>
     `;
 
     //Agrega el HTML del carrito en el tbody
