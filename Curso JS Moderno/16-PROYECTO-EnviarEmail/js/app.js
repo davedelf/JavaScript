@@ -35,23 +35,33 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault(); //Previene el evento por defecto, que es limpiar-resetear el formulario. Cada elemento html tiene un evento por default
 
     //Reiniciamos el objeto email
-    email.email = "";
-    email.asunto = "";
-    email.mensaje = "";
+    //email.email = "";
+    //email.asunto = "";
+    //email.mensaje = "";
 
     //Reiniciamos el formulario
-    formulario.reset();
+    //formulario.reset();
 
     //Volvemos a activar la función comprobarEmail para que aparezcan las alertas. De esta forma desactivamos el boton de Enviar
-    comprobarEmail();
+    //comprobarEmail();
+
+    resetFormulario();
   });
 
   //Habilitar el Spinner para enviar email
   function enviarEmail(e) {
     e.preventDefault();
-    
-    spinner.classList.add("flex")
-    spinner.classList.remove("hidden")
+
+    spinner.classList.add("flex");
+    spinner.classList.remove("hidden");
+
+    setTimeout(() => {
+      spinner.classList.add("hidden");
+      spinner.classList.remove("flex");
+    }, 3000); //milisegundos
+
+    //Reiniciamos el formulario y de esa forma el botón enviar se deshabilita
+    resetFormulario();
   }
 
   function validar(e) {
@@ -129,5 +139,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     btnSubmit.classList.remove("opacity-50");
     btnSubmit.disabled = false;
+  }
+
+  function resetFormulario() {
+    email.email = "";
+    email.asunto = "";
+    email.mensaje = "";
+    formulario.reset();
+    comprobarEmail();
   }
 });
