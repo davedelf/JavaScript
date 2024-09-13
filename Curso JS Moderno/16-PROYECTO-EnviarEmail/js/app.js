@@ -58,10 +58,30 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
       spinner.classList.add("hidden");
       spinner.classList.remove("flex");
-    }, 3000); //milisegundos
 
-    //Reiniciamos el formulario y de esa forma el botón enviar se deshabilita
-    resetFormulario();
+      //Reiniciamos el formulario y de esa forma el botón enviar se deshabilita
+      resetFormulario();
+
+      const alertaExito = document.createElement("P");
+      alertaExito.classList.add(
+        "bg-green-500",
+        "text-white",
+        "pd-2",
+        "text-center",
+        "rounded-lg",
+        "mt-10",
+        "font-bold",
+        "text-sm",
+        "uppercase"
+      );
+      alertaExito.textContent = "Mensaje enviado correctamente";
+
+      formulario.appendChild(alertaExito);
+
+      setTimeout(() => {
+        alertaExito.remove();
+      }, 3000);
+    }, 3000); //milisegundos
   }
 
   function validar(e) {
