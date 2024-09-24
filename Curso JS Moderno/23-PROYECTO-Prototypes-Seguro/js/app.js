@@ -9,6 +9,49 @@ function Seguro(marca, year, tipo) {
   this.tipo = tipo;
 }
 
+Seguro.prototype.cotizarSeguro = function () {
+  /**
+   1-Americano 1.15
+   2-Asiatico 1.05
+   3-Europeo 1.35
+   */
+  let cantidad;
+  const base = 2000;
+
+  console.log(this.marca);
+  switch (this.marca) {
+    case "1":
+      cantidad = base * 1.15;
+      break;
+    case "2":
+      cantidad = base * 1.05;
+      break;
+    case "3":
+      cantidad = base * 1.35;
+      break;
+    default:
+      break;
+  }
+  //Leer el año
+  let diferencia=new Date().getFullYear()-this.year
+
+  //Cada año que la diferencia es mayor el costo del seguro se reduce en un 3%
+  cantidad-=((diferencia*3)*cantidad/100)
+
+  /**
+   * Si el seguro es Básico se multiplica por un 30% más
+   * Si el seguro es Compelto se multiplica por un 50% más
+   */
+
+  if(this.tipo==="basico"){
+    cantidad*=1.30
+  }else{
+    cantidad*=1.50
+  }
+  return cantidad
+ 
+};
+//Realiza la cotización con los datos
 function UI() {}
 
 //Llena las opciones de los años. Usamos arrow function ya que no usamos this
@@ -42,7 +85,7 @@ UI.prototype.mostrarMensaje = function (mensaje, tipo) {
   formulario.insertBefore(div, document.querySelector("#resultado"));
 
   setTimeout(() => {
-    div.remove()
+    div.remove();
   }, 3000);
 };
 
@@ -74,13 +117,15 @@ function cotizarSeguro(e) {
 
   //Validación
   if (marca === "" || year === "" || tipo === "") {
-    ui.mostrarMensaje("Todos los campos son obligatorios","error")
-    return
+    ui.mostrarMensaje("Todos los campos son obligatorios", "error");
+    return;
   }
-  ui.mostrarMensaje("Cotizando...","correcto")
+  ui.mostrarMensaje("Cotizando...", "correcto");
 
   //Instanciar el seguro
 
+  const seguro = new Seguro(marca, year, tipo);
+  seguro.cotizarSeguro();
+
   //Utilizar el prototype que va a cotizar
-  
 }
