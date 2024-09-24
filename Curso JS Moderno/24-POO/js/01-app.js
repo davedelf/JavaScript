@@ -10,10 +10,20 @@ class Cliente {
     this.nombre = nombre;
     this.saldo = saldo;
   }
+
+  mostrarInformacion(){
+    return `Cliente: ${this.nombre} - Saldo:${this.saldo}`
+  }
+
+  static bienvenida(){
+    return "Bienvenido"
+  }
 }
 
 const juan = new Cliente("Juan", 400);
 console.log(juan);
+console.log(juan.mostrarInformacion());
+console.log(Cliente.bienvenida());
 
 //Class Expression
 const Cliente2 = class {
@@ -21,7 +31,17 @@ const Cliente2 = class {
     this.nombre = nombre;
     this.saldo = saldo;
   }
+
+  mostrarInformacion(){
+    return `Cliente: ${this.nombre} - Saldo:${this.saldo}`
+  }
+
+  static bienvenida(){
+    return "Bienvenido"
+  }
 };
 
 const juan2 = new Cliente2("Juan", 400);
 console.log(juan2);
+console.log(juan2.mostrarInformacion());
+console.log(Cliente2.bienvenida());
