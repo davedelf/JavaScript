@@ -19,7 +19,6 @@ class Presupuesto {
 
   nuevoGasto(gasto) {
     this.gastos = [...this.gastos, gasto];
-    console.log(this.gastos);
   }
 }
 
@@ -55,6 +54,43 @@ class UI {
       divMensaje.remove();
     }, 3000);
   }
+
+  agregarGastoListado(gastos) {
+    this.limpiarHTML(); //Elimina el HTML previo
+    //Iterar sobre los gastos
+    gastos.forEach((gasto) => {
+      const { cantidad, nombre, id } = gasto;
+
+      //Crear un LI
+      const nuevoGasto = document.createElement("li");
+      nuevoGasto.className =
+        "list-group-item d-flex justify-content-between align-items-center";
+      //nuevoGasto.setAttribute("data-id", id); //Hacen lo mismo setAttribute y dataset, pero se recomienda usar dataset en versiones nuevas de js
+      nuevoGasto.dataset.id = id;
+      console.log(nuevoGasto);
+
+      //Agregar el HTML del gasto
+      nuevoGasto.innerHTML = `
+        ${nombre} <span class="badge badge-primary badge-pill"> ${cantidad}</span>
+      `;
+
+      //Botón para borrar el gasto
+      const btnBorrar = document.createElement("button");
+      btnBorrar.classList.add("btn", "btn-danger", "borrar-gasto");
+      btnBorrar.innerHTML = "Borrar &times"; //Entidad HTML &times - agrega el icono de X al botón. Se usa con innerHTML
+      nuevoGasto.appendChild(btnBorrar);
+
+      //Agregar al HTML
+      gastoListado.appendChild(nuevoGasto);
+    });
+  }
+
+  //Borrar los HTML anteriores para no repetir
+  limpiarHTML() {
+    while (gastoListado.firstChild) {
+      gastoListado.removeChild(gastoListado.firstChild);
+    }
+  }
 }
 
 //Instanciar
@@ -87,6 +123,10 @@ function agregarGasto(e) {
 
   //Mensaje de Ok
   ui.imprimirAlerta("Gasto agregado Correctamente");
+
+  //Imprimir los gastos
+  const { gastos } = presupuesto;
+  ui.agregarGastoListado(gastos);
 
   //Reiniciar formulario
   formulario.reset();
