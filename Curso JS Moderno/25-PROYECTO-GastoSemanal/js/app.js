@@ -9,21 +9,41 @@ function eventListeners() {
 }
 
 //Classes
+class Presupuesto{
+  constructor(presupuesto){
+    this.presupuesto=Number(presupuesto)
+    this.restante=Number(presupuesto)
+    this.gastos=[]
+  }
+}
+
+class UI{
+
+}
+
+
+//Instanciar
+let ui=new UI()
+let presupuesto;
+
 
 //Funciones
 function preguntarPresupuesto() {
   const presupuestoUsuario = prompt("¿Cuál es tu presupuesto?");
-  console.log(presupuestoUsuario);
+  //console.log(presupuestoUsuario);
 
   //Validaciones
   if (
     presupuestoUsuario === "" ||
     presupuestoUsuario === null ||
     isNaN(presupuestoUsuario) || //isNaN verifica si convierte a número o no.
-    presupuestoUsuario < 0
+    presupuestoUsuario <= 0
   ) {
     window.location.reload(); //Recarga la ventana actual
   }
 
-  console.log(parseInt(presupuestoUsuario));
+  //console.log(parseInt(presupuestoUsuario));
+  presupuesto=new Presupuesto(presupuestoUsuario)
+  console.log(presupuesto);
+
 }
