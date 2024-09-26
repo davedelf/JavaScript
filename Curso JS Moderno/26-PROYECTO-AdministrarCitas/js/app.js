@@ -20,27 +20,14 @@ console.log(citaObj);
 //Eventos
 
 //Sincronizamos código con la interfáz, inyectamos dinámicamente. Funciona si el 'name' del input coincide con la propiedad del objeto
-pacienteInput.addEventListener("change",(e)=>{
-    citaObj[e.target.name]=e.target.value
-    console.log(citaObj);
-})
+pacienteInput.addEventListener("change",datosCita)
+propietarioInput.addEventListener("change",datosCita)
+emailInput.addEventListener("change",datosCita)
+fechaInput.addEventListener("change",datosCita)
+sintomasInput.addEventListener("change",datosCita)
 
-propietarioInput.addEventListener("change",(e)=>{
-    citaObj[e.target.name]=e.target.value
-    console.log(citaObj);
-})
 
-emailInput.addEventListener("change",(e)=>{
+function datosCita(e){
     citaObj[e.target.name]=e.target.value
     console.log(citaObj);
-})
-
-fechaInput.addEventListener("change",(e)=>{
-    citaObj[e.target.name]=e.target.value
-    console.log(citaObj);
-})
-
-sintomasInput.addEventListener("change",(e)=>{
-    citaObj[e.target.name]=e.target.value
-    console.log(citaObj);
-})
+}
