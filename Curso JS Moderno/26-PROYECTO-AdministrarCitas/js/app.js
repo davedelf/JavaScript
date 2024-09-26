@@ -15,3 +15,32 @@ const citaObj = {
 };
 
 console.log(citaObj);
+
+
+//Eventos
+
+//Sincronizamos código con la interfáz, inyectamos dinámicamente. Funciona si el 'name' del input coincide con la propiedad del objeto
+pacienteInput.addEventListener("change",(e)=>{
+    citaObj[e.target.name]=e.target.value
+    console.log(citaObj);
+})
+
+propietarioInput.addEventListener("change",(e)=>{
+    citaObj[e.target.name]=e.target.value
+    console.log(citaObj);
+})
+
+emailInput.addEventListener("change",(e)=>{
+    citaObj[e.target.name]=e.target.value
+    console.log(citaObj);
+})
+
+fechaInput.addEventListener("change",(e)=>{
+    citaObj[e.target.name]=e.target.value
+    console.log(citaObj);
+})
+
+sintomasInput.addEventListener("change",(e)=>{
+    citaObj[e.target.name]=e.target.value
+    console.log(citaObj);
+})
