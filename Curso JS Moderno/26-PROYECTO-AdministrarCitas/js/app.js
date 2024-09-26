@@ -54,7 +54,7 @@ class Notificacion {
   }
 
   mostrar() {
-    //Creamos la alerta
+    //Creamos la notificación
     const alerta = document.createElement("div");
     alerta.classList.add(
       "text-center",
@@ -67,6 +67,15 @@ class Notificacion {
       "font-bold",
       "text-sm"
     );
+
+    //Eliminamos alertas duplicadas. Forma tradicional
+    const alertaPrevia = document.querySelector(".alert");
+    // if(alertaPrevia){
+    //     alertaPrevia.remove()
+    // }
+
+    //Eliminamos alertas duplicadas. Forma morderna con 'optional chaining': Similar al operador ternario
+    alertaPrevia?.remove();
 
     //Evaluamos el tipo de alerta y asignamos estilo
     this.tipo === "error"
