@@ -22,12 +22,15 @@ formulario.addEventListener("submit", submitCita);
 
 //Objeto de cita
 const citaObj = {
+  id: generarId(),
   paciente: "",
   propietario: "",
   email: "",
   fecha: "",
   sintomas: "",
 };
+
+//Clases
 
 //Clase Notificación
 class Notificacion {
@@ -275,6 +278,7 @@ function reiniciarObjetoCita() {
 
   //Otra forma
   Object.assign(citaObj, {
+    id: generarId(),
     paciente: "",
     propietario: "",
     email: "",
@@ -286,4 +290,9 @@ function reiniciarObjetoCita() {
 //Editar cita registrada
 function cargarEdicion(cita) {
   console.log(cita);
+}
+
+//Generar ID's únicos
+function generarId() {
+  return Math.random().toString(36).substring(2) + Date.now();
 }
