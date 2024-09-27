@@ -33,6 +33,7 @@ class Notificacion {
   constructor({ texto, tipo }) {
     this.texto = texto;
     this.tipo = tipo;
+    this.mostrar();
   }
 
   mostrar() {
@@ -178,19 +179,24 @@ function submitCita(e) {
   e.preventDefault();
 
   if (Object.values(citaObj).some((valor) => valor.trim() === "")) {
-    const notificacion = new Notificacion({
+    new Notificacion({
       texto: "Todos los campos son obligatorios",
       tipo: "error",
     });
 
-    notificacion.mostrar();
+    //notificacion.mostrar();
     return;
   }
 
-  citas.agregar(citaObj);
+  citas.agregar({ ...citaObj }); //Antes de almacenarlo le pasamos una copia, para que no reemplaze el que ya está cargado en el HTML
   formulario.reset();
   citas.mostrar();
   reiniciarObjetoCita();
+
+  new Notificacion({
+    texto: "Paciente registrado",
+    tipo: "exito",
+  });
 }
 
 //Reiniciar objeto cita
