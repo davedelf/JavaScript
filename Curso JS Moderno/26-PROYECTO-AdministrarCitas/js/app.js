@@ -7,17 +7,7 @@ const sintomasInput = document.querySelector("#sintomas");
 
 const formulario = document.querySelector("#formulario-cita");
 
-//Objeto de cita
-const citaObj = {
-  paciente: "",
-  propietario: "",
-  email: "",
-  fecha: "",
-  sintomas: "",
-};
-
 //Eventos
-
 //Sincronizamos código con la interfáz, inyectamos dinámicamente. Funciona si el 'name' del input coincide con la propiedad del objeto
 pacienteInput.addEventListener("change", datosCita);
 propietarioInput.addEventListener("change", datosCita);
@@ -27,26 +17,16 @@ sintomasInput.addEventListener("change", datosCita);
 
 formulario.addEventListener("submit", submitCita);
 
-function datosCita(e) {
-  citaObj[e.target.name] = e.target.value;
-  console.log(citaObj);
-}
+//Objeto de cita
+const citaObj = {
+  paciente: "",
+  propietario: "",
+  email: "",
+  fecha: "",
+  sintomas: "",
+};
 
-//Validación del formulario
-function submitCita(e) {
-  e.preventDefault();
-
-  if (Object.values(citaObj).some((valor) => valor.trim() === "")) {
-    const notificacion = new Notificacion({
-      texto: "Todos los campos son obligatorios",
-      tipo: "error",
-    });
-
-    notificacion.mostrar();
-    return;
-  }
-}
-
+//Clase Notificación
 class Notificacion {
   constructor({ texto, tipo }) {
     this.texto = texto;
@@ -88,9 +68,48 @@ class Notificacion {
     //Insertar en el DOM
     formulario.parentElement.insertBefore(alerta, formulario);
 
-    //Seteamos tiempo
+    //Seteamos timeOut
     setTimeout(() => {
       alerta.remove();
     }, 3000);
   }
+}
+
+//Clase AdminCitas
+class AdminCitas {
+  constructor() {
+    this.citas = [];
+    console.log(this.citas);
+  }
+
+  agregar(cita) {
+    this.citas = [...this.citas, cita];
+    console.log(this.citas);
+  }
+}
+
+const citas = new AdminCitas();
+
+//Funciones
+
+//Agrega datos del HTML al objeto
+function datosCita(e) {
+  citaObj[e.target.name] = e.target.value;
+}
+
+//Validación del formulario
+function submitCita(e) {
+  e.preventDefault();
+
+  if (Object.values(citaObj).some((valor) => valor.trim() === "")) {
+    const notificacion = new Notificacion({
+      texto: "Todos los campos son obligatorios",
+      tipo: "error",
+    });
+
+    notificacion.mostrar();
+    return;
+  }
+
+  citas.agregar(citaObj);
 }
