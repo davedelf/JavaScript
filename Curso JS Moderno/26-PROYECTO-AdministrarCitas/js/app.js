@@ -8,6 +8,7 @@ const sintomasInput = document.querySelector("#sintomas");
 const formulario = document.querySelector("#formulario-cita");
 
 const contenedorCitas = document.querySelector("#citas");
+const btnEditar = document.querySelector(".btn-editar");
 
 //Eventos
 //Sincronizamos código con la interfáz, inyectamos dinámicamente. Funciona si el 'name' del input coincide con la propiedad del objeto
@@ -185,8 +186,28 @@ class AdminCitas {
         "rounded-lg",
         "flex",
         "items-center",
-        "gap-2"
+        "gap-2",
+        "btn-editar"
       );
+
+      /**
+       * En este caso usamos un 'event handler', ya que JS no percibe bien los eventos sobre elementos dinámicos. En este caso, el btnEditar se agrega luego de que se genera el registro
+       * por lo que no podemos usar un 'eventListener'. EventListener se usa cuando se genera el objeto HTML al comienzo, y no cuando es resultado de una acción. Para estos casos usamos
+       * un event handler. Los event handler comienzan con 'on'. En este caso usamos el event handler 'onclick'.
+       *
+       * Event Handlers => Elementos que se crean de forma dinámica
+       * Event Listeners => Elementos que se crean una sola vez
+       */
+
+      //Creamos una copia del objeto cita para poder pasarlo al cargarEdicion, ya que el forEach lo único que hace es iterar sobre cada objeto.
+      //usamos structureClone(), que lo que hace es crear una copia del objeto que se le pasa por parámetro
+      const clone = structuredClone(cita);
+
+      //O también podemos hacerlo con spread operator
+      // const clone={...cita}
+
+      btnEditar.onclick = () => cargarEdicion(clone);
+
       btnEliminar.innerHTML =
         'Eliminar <svg fill="none" class="h-5 w-5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
 
@@ -260,4 +281,9 @@ function reiniciarObjetoCita() {
     fecha: "",
     sintomas: "",
   });
+}
+
+//Editar cita registrada
+function cargarEdicion(cita) {
+  console.log(cita);
 }
