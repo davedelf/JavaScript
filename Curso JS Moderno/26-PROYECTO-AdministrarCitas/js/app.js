@@ -20,7 +20,10 @@ sintomasInput.addEventListener("change", datosCita);
 
 formulario.addEventListener("submit", submitCita);
 
-//Objeto de cita
+//Variables
+let editando = false; //Flag: Si estamos editando o registrando.
+
+//Objeto cita
 const citaObj = {
   id: generarId(),
   paciente: "",
@@ -32,7 +35,7 @@ const citaObj = {
 
 //Clases
 
-//Clase Notificación
+// Notificación
 class Notificacion {
   constructor({ texto, tipo }) {
     this.texto = texto;
@@ -82,23 +85,36 @@ class Notificacion {
   }
 }
 
-//Clase AdminCitas
+// AdminCitas
 class AdminCitas {
   constructor() {
     this.citas = [];
   }
 
+  //Añadir
   agregar(cita) {
     this.citas = [...this.citas, cita];
+    console.log(cita);
   }
 
+  //Editar
+  /**
+   * Itera sobre todas las citas en memoria e identifica cual estamos actualizando
+   */
+  editarCita(citaActualizada) {
+    this.citas = this.citas.map((cita) =>
+      cita.id === citaActualizada.id ? citaActualizada : cita
+    ); //forEach solo itera pero Map retorna arreglo nuevo
+    this.mostrar();
+  }
+  //Limpia HTML lista citas y recarga
   mostrar() {
     //Limpiar el HTML
     while (contenedorCitas.firstChild) {
       contenedorCitas.removeChild(contenedorCitas.firstChild);
     }
 
-    //Generamos las citas
+    //Genera citas HTML
     this.citas.forEach((cita) => {
       const divCita = document.createElement("DIV");
       divCita.classList.add(
@@ -202,9 +218,9 @@ class AdminCitas {
        * Event Listeners => Elementos que se crean una sola vez
        */
 
-      //Creamos una copia del objeto cita para poder pasarlo al cargarEdicion, ya que el forEach lo único que hace es iterar sobre cada objeto.
+      //Creamos una copia de cita para poder pasarlo al cargarEdicion, ya que el forEach lo único que hace es iterar sobre cada objeto.
       //usamos structureClone(), que lo que hace es crear una copia del objeto que se le pasa por parámetro
-      const clone = structuredClone(cita);
+      const clone = structuredClone(cita); //Clona objeto
 
       //O también podemos hacerlo con spread operator
       // const clone={...cita}
@@ -233,7 +249,6 @@ class AdminCitas {
 }
 
 const citas = new AdminCitas();
-
 //Funciones
 
 //Agrega datos del HTML al objeto
@@ -255,7 +270,21 @@ function submitCita(e) {
     return;
   }
 
-  citas.agregar({ ...citaObj }); //Antes de almacenarlo le pasamos una copia, para que no reemplaze el que ya está cargado en el HTML
+  if (editando) {
+    citas.editarCita({ ...citaObj });
+    new Notificacion({
+      texto: "Guardado Correctamente",
+      tipo: "exito",
+    });
+  } else {
+    citas.agregar({ ...citaObj });
+    new Notificacion({
+      texto: "Paciente Registrado",
+      tipo: "exito",
+    });
+  }
+
+  //citas.agregar({ ...citaObj }); //Antes de almacenarlo le pasamos una copia, para que no reemplaze el que ya está cargado en el HTML
   formulario.reset();
   citas.mostrar();
   reiniciarObjetoCita();
@@ -276,7 +305,6 @@ function reiniciarObjetoCita() {
   // citaObj.fecha = "";
   // citaObj.sintomas = "";
 
-  //Otra forma
   Object.assign(citaObj, {
     id: generarId(),
     paciente: "",
@@ -287,12 +315,19 @@ function reiniciarObjetoCita() {
   });
 }
 
-//Editar cita registrada
+//Editar cita registrada. Asigna datos de cita a los inputs
 function cargarEdicion(cita) {
-  console.log(cita);
+  Object.assign(citaObj, cita);
+  pacienteInput.value = cita.paciente;
+  propietarioInput.value = cita.propietario;
+  emailInput.value = cita.email;
+  fechaInput.value = cita.fecha;
+  sintomasInput.value = cita.sintomas;
+
+  editando = true;
 }
 
-//Generar ID's únicos
+//Generar ID's
 function generarId() {
   return Math.random().toString(36).substring(2) + Date.now();
 }
