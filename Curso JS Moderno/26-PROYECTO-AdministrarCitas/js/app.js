@@ -188,5 +188,27 @@ function submitCita(e) {
   }
 
   citas.agregar(citaObj);
+  formulario.reset();
   citas.mostrar();
+  reiniciarObjetoCita();
+}
+
+//Reiniciar objeto cita
+function reiniciarObjetoCita() {
+  //Forma tradicional
+
+  // citaObj.paciente = "";
+  // citaObj.propietario = "";
+  // citaObj.email = "";
+  // citaObj.fecha = "";
+  // citaObj.sintomas = "";
+
+  //Otra forma
+  Object.assign(citaObj, {
+    paciente: "",
+    propietario: "",
+    email: "",
+    fecha: "",
+    sintomas: "",
+  });
 }
