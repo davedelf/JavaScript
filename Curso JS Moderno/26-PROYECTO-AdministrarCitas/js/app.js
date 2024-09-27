@@ -7,6 +7,8 @@ const sintomasInput = document.querySelector("#sintomas");
 
 const formulario = document.querySelector("#formulario-cita");
 
+const contenedorCitas = document.querySelector("#citas");
+
 //Eventos
 //Sincronizamos código con la interfáz, inyectamos dinámicamente. Funciona si el 'name' del input coincide con la propiedad del objeto
 pacienteInput.addEventListener("change", datosCita);
@@ -79,12 +81,86 @@ class Notificacion {
 class AdminCitas {
   constructor() {
     this.citas = [];
-    console.log(this.citas);
   }
 
   agregar(cita) {
     this.citas = [...this.citas, cita];
-    console.log(this.citas);
+  }
+
+  mostrar() {
+    //Limpiar el HTML
+    while (contenedorCitas.firstChild) {
+      contenedorCitas.removeChild(contenedorCitas.firstChild);
+    }
+
+    //Generamos las citas
+    this.citas.forEach((cita) => {
+      const divCita = document.createElement("DIV");
+      divCita.classList.add(
+        "mx-5",
+        "my-10",
+        "bg-white",
+        "shadow-md",
+        "px-5",
+        "py-10",
+        "rounded-xl"
+      );
+
+      const paciente = document.createElement("P");
+      paciente.classList.add(
+        "font-normal",
+        "mt-3",
+        "text-grey-700",
+        "normal-case"
+      );
+      paciente.innerHTML = `
+        <span class="font-bold uppercase">Paciente: </span> ${cita.paciente}
+      `;
+
+      const propietario = document.createElement("P");
+      propietario.classList.add(
+        "font-normal",
+        "mt-3",
+        "text-grey-700",
+        "normal-case"
+      );
+      propietario.innerHTML = `<span class="font-bold uppercase">Propietario: </span>${cita.propietario}`;
+
+      const email = document.createElement("P");
+      email.classList.add(
+        "font-normal",
+        "mt-3",
+        "text-grey-700",
+        "normal-case"
+      );
+      email.innerHTML = `<span class="font-bold uppercase">Email: </span>${cita.email}`;
+
+      const fecha = document.createElement("P");
+      fecha.classList.add(
+        "font-normal",
+        "mt-3",
+        "text-grey-700",
+        "normal-case"
+      );
+      fecha.innerHTML = `<span class="font-bold uppercase">Fecha Alta: </span>${cita.fecha}`;
+
+      const sintomas = document.createElement("P");
+      sintomas.classList.add(
+        "font-normal",
+        "mt-3",
+        "text-grey-700",
+        "normal-case"
+      );
+      sintomas.innerHTML = `<span class="font-bold uppercase">Síntomas: </span>${cita.sintomas}`;
+
+      //Agregamos el HTML
+      divCita.appendChild(paciente);
+      divCita.appendChild(propietario);
+      divCita.appendChild(email);
+      divCita.appendChild(fecha);
+      divCita.appendChild(sintomas);
+      contenedorCitas.appendChild(divCita);
+    });
   }
 }
 
@@ -112,4 +188,5 @@ function submitCita(e) {
   }
 
   citas.agregar(citaObj);
+  citas.mostrar();
 }
