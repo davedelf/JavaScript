@@ -6,6 +6,9 @@ const fechaInput = document.querySelector("#fecha");
 const sintomasInput = document.querySelector("#sintomas");
 
 const formulario = document.querySelector("#formulario-cita");
+const formularioInput = document.querySelector(
+  '#formulario-cita input[type="submit"]'
+);
 
 const contenedorCitas = document.querySelector("#citas");
 const btnEditar = document.querySelector(".btn-editar");
@@ -94,14 +97,14 @@ class AdminCitas {
   //Añadir
   agregar(cita) {
     this.citas = [...this.citas, cita];
-    console.log(cita);
+    this.mostrar();
   }
 
   //Editar
   /**
    * Itera sobre todas las citas en memoria e identifica cual estamos actualizando
    */
-  editarCita(citaActualizada) {
+  editar(citaActualizada) {
     this.citas = this.citas.map((cita) =>
       cita.id === citaActualizada.id ? citaActualizada : cita
     ); //forEach solo itera pero Map retorna arreglo nuevo
@@ -265,13 +268,11 @@ function submitCita(e) {
       texto: "Todos los campos son obligatorios",
       tipo: "error",
     });
-
-    //notificacion.mostrar();
     return;
   }
 
   if (editando) {
-    citas.editarCita({ ...citaObj });
+    citas.editar({ ...citaObj });
     new Notificacion({
       texto: "Guardado Correctamente",
       tipo: "exito",
@@ -286,13 +287,9 @@ function submitCita(e) {
 
   //citas.agregar({ ...citaObj }); //Antes de almacenarlo le pasamos una copia, para que no reemplaze el que ya está cargado en el HTML
   formulario.reset();
-  citas.mostrar();
   reiniciarObjetoCita();
-
-  new Notificacion({
-    texto: "Paciente registrado",
-    tipo: "exito",
-  });
+  formularioInput.value = "Registrar Paciente";
+  editando = false;
 }
 
 //Reiniciar objeto cita
@@ -315,9 +312,15 @@ function reiniciarObjetoCita() {
   });
 }
 
+//Generar ID's
+function generarId() {
+  return Math.random().toString(36).substring(2) + Date.now();
+}
+
 //Editar cita registrada. Asigna datos de cita a los inputs
 function cargarEdicion(cita) {
   Object.assign(citaObj, cita);
+
   pacienteInput.value = cita.paciente;
   propietarioInput.value = cita.propietario;
   emailInput.value = cita.email;
@@ -325,9 +328,5 @@ function cargarEdicion(cita) {
   sintomasInput.value = cita.sintomas;
 
   editando = true;
-}
-
-//Generar ID's
-function generarId() {
-  return Math.random().toString(36).substring(2) + Date.now();
+  formularioInput.value = "Guardar Cambios";
 }
