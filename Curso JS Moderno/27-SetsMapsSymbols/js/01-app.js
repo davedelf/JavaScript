@@ -44,6 +44,6 @@ console.log(carrito);
 //Del siguiente arreglo eliminar los duplicados
 const numeros=[10,20,30,40,50,10,20]
 
-const numerosSin=new Set(numeros)
+const noRepetidos=new Set(numeros)
 
-console.log(numerosSin);
+console.log(noRepetidos);
