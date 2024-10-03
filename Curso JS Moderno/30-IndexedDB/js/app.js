@@ -14,3 +14,27 @@
  *
  *
  */
+
+document.addEventListener("DOMContentLoaded", () => {
+  crmDB();
+});
+
+function crmDB() {
+  //Crear base de datos version 1.0
+  let crmDB = window.indexedDB.open("crm", 1); //parámetros: nombre, versión
+
+  //Si hubo un error
+  crmDB.onerror = function () {
+    console.log("Hubo un error a la hora de crear la bd");
+  };
+
+  //Si se creó bien
+  crmDB.onsuccess = function () {
+    console.log("Se creó correctamente la bd");
+  };
+
+  //Configuración de la bd
+  crmDB.onupgradeneeded = function () {
+    console.log("Este método sólo se ejecuta una vez...");
+  };
+}
