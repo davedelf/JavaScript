@@ -14,9 +14,14 @@
  *
  *
  */
+let DB;
 
 document.addEventListener("DOMContentLoaded", () => {
   crmDB();
+
+  setTimeout(() => {
+    crearCliente();
+  }, 5000);
 });
 
 function crmDB() {
@@ -31,6 +36,7 @@ function crmDB() {
   //Si se creó bien
   crmDB.onsuccess = function () {
     console.log("Se creó correctamente la bd");
+    DB = crmDB.result;
   };
 
   //Configuración de la bd
@@ -49,4 +55,27 @@ function crmDB() {
 
     console.log("Columnas creadas");
   };
+}
+
+function crearCliente() {
+  let transaction = DB.transaction(["crm"], "readwrite");
+
+  transaction.oncomplete = function () {
+    console.log("Transacción completada");
+  };
+
+  transaction.onerror = function () {
+    console.log("Hubo un error en la transacción");
+  };
+
+  const objectStore = transaction.objectStore("crm");
+
+  const nuevoCliente = {
+    nombre: "David",
+    telefono: 123456,
+    email: "davideliasdelfino@gmail.com",
+  };
+
+  const peticion = objectStore.add(nuevoCliente);
+  console.log(peticion);
 }
