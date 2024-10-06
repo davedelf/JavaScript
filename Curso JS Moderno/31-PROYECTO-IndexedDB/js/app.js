@@ -220,18 +220,30 @@ function nuevaCita(e) {
     // Añade la nueva cita
     administrarCitas.agregarCita({ ...citaObj });
 
-    // Mostrar mensaje de que todo esta bien...
-    ui.imprimirAlerta("Se agregó correctamente");
+    //Creamos la transacción
+    const transaciton = DB.transaction(["citas"], "readwrite");
+
+    //Habilitar objectStore
+    const objectStore = transaciton.objectStore("citas");
+
+    //Agregamos objeto
+    objectStore.add(citaObj);
+
+    transaciton.oncomplete = () => {
+      console.log("cita ");
+      // Mostrar mensaje de que todo esta bien...
+      ui.imprimirAlerta("Se agregó correctamente");
+
+      // Imprimir el HTML de citas
+      ui.imprimirCitas(administrarCitas);
+
+      // Reinicia el objeto para evitar futuros problemas de validación
+      reiniciarObjeto();
+
+      // Reiniciar Formulario
+      formulario.reset();
+    };
   }
-
-  // Imprimir el HTML de citas
-  ui.imprimirCitas(administrarCitas);
-
-  // Reinicia el objeto para evitar futuros problemas de validación
-  reiniciarObjeto();
-
-  // Reiniciar Formulario
-  formulario.reset();
 }
 
 function reiniciarObjeto() {
