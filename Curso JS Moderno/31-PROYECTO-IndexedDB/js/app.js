@@ -17,8 +17,10 @@ const heading = document.querySelector("#administra");
 
 let editando = false;
 
+let DB;
+
 window.onload = () => {
-  eventListeners();
+  console.log("Documento Listo");
   crearDB();
 };
 
@@ -275,40 +277,37 @@ function cargarEdicion(cita) {
 }
 
 function crearDB() {
-  //Crear la bd version 1.0
+  //Crear DB v1.0
   const crearDB = window.indexedDB.open("citas", 1);
 
-  //Si hay un error
   crearDB.onerror = function () {
     console.log("Hubo un error");
   };
-  //Si todo sale bien
+
   crearDB.onsuccess = function () {
-    console.log("Todo salio bien");
+    console.log("Creación exitosa");
     DB = crearDB.result;
     console.log(DB);
   };
 
-  //Definir el esquema
   crearDB.onupgradeneeded = function (e) {
     const db = e.target.result;
 
-    //Definimos objectStore
     const objectStore = db.createObjectStore("citas", {
-      //keyPath es el índice o clave primaria
+      //ïndice
       keyPath: "id",
-      autoincrement: true,
+      autoIncrement: true,
     });
 
-    //Definir todas las columnas
-    objectStore.createIndex("mascota", "mascota", { unique: false }),
-      objectStore.createIndex("propietario", "mascota", { unique: false }),
-      objectStore.createIndex("telefono", "mascota", { unique: false }),
-      objectStore.createIndex("fecha", "mascota", { unique: false }),
-      objectStore.createIndex("hora", "mascota", { unique: false }),
-      objectStore.createIndex("sintomas", "mascota", { unique: false }),
-      objectStore.createIndex("id", "id", { unique: true });
+    //Definir las tablas
+    objectStore.createIndex("id", "id", { unique: true });
+    objectStore.createIndex("mascota", "mascota", { unique: false });
+    objectStore.createIndex("propietario", "propietario", { unique: false });
+    objectStore.createIndex("telefono", "telefono", { unique: false });
+    objectStore.createIndex("fecha", "fecha", { unique: false });
+    objectStore.createIndex("hora", "hora", { unique: false });
+    objectStore.createIndex("sintomas", "sintomas", { unique: false });
 
-      console.log("DB Creada y Lista");
+    console.log("DB Creada y Lista");
   };
 }
