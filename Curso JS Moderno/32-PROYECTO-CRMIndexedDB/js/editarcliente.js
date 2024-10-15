@@ -1,15 +1,22 @@
 (function () {
   const nombreInput = document.querySelector("#nombre");
-  let DB;
+  const emailInput = document.querySelector("#email");
+  const telefonoInput = document.querySelector("#telefono");
+  const empresaInput = document.querySelector("#empresa");
+  // const formulario = document.querySelector("#formulario");
+  // let DB;
+  let idCliente;
 
   document.addEventListener("DOMContentLoaded", () => {
     //Conectar a la DB
     conectarDB();
 
+    //Actualiza el registro
+    formulario.addEventListener("submit", actualizarCliente);
+
     //Verificar el ID de la URL - Query String .
     const parametrosURL = new URLSearchParams(window.location.search);
-    const idCliente = parametrosURL.get("id");
-    console.log(idCliente);
+    idCliente = parametrosURL.get("id");
 
     if (idCliente) {
       setTimeout(() => {
@@ -50,8 +57,52 @@
   }
 
   function llenarFormulario(datosCliente) {
-    const { nombre } = datosCliente;
+    const { nombre, email, telefono, empresa } = datosCliente;
 
     nombreInput.value = nombre;
+    emailInput.value = email;
+    telefonoInput.value = telefono;
+    empresaInput.value = empresa;
+  }
+
+  function actualizarCliente(e) {
+    e.preventDefault();
+
+    if (
+      nombreInput.value === "" ||
+      emailInput.value === "" ||
+      telefonoInput.value === "" ||
+      empresaInput.value === ""
+    ) {
+      imprimirAlerta("Todos los campos son obligatorios", "error");
+      return;
+    }
+
+    //Actualizar cliente
+    const clienteActualizado = {
+      nombre: nombreInput.value,
+      email: emailInput.value,
+      telefono: telefonoInput.value,
+      empresa: empresaInput.value,
+      id: Number(idCliente),
+    };
+
+    const transaction = DB.transaction(["crm"], "readwrite");
+    const objectStore = transaction.objectStore("crm");
+
+    objectStore.put(clienteActualizado);
+
+    transaction.oncomplete = () => {
+      imprimirAlerta("Cliente actualizado");
+      formulario.reset();
+
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 3000);
+    };
+
+    transaction.onerror = () => {
+      imprimirAlerta("Hubo un error", "error");
+    };
   }
 })();
