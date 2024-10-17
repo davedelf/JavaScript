@@ -28,7 +28,7 @@ aplicarDescuento
 // Hay 3 valores posibles...
 
 // fulfilled - El promise se cumplió
-// rejected - El promise no se cumplió
+// rejected - El promise no se cumpliós
 // pending - No se ha cumplido y tampoco fue rechazado
 
 function descuento(mensaje) {
