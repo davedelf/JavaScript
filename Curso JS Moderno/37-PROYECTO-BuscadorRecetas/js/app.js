@@ -40,7 +40,13 @@ function seleccionarCategoria(e) {
 }
 
 function mostrarRecetas(recetas = []) {
-  limpiarHTML();
+  limpiarHTML(resultado);
+
+  const heading = document.createElement("H2");
+  heading.classList.add("text-center", "text-black", "my-5");
+  heading.textContent = recetas.length ? "Resultados" : "No Hay Resultados";
+  resultado.appendChild(heading);
+
   recetas.forEach((receta) => {
     const { idMeal, strMeal, strMealThumb } = receta;
 
@@ -78,9 +84,9 @@ function mostrarRecetas(recetas = []) {
     resultado.appendChild(recetaContenedor);
   });
 
-  function limpiarHTML() {
-    while (resultado.firstChild) {
-      resultado.removeChild(resultado.firstChild);
+  function limpiarHTML(selector) {
+    while (selector.firstChild) {
+      selector.removeChild(selector.firstChild);
     }
   }
 }
