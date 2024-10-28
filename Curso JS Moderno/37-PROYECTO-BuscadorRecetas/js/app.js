@@ -153,6 +153,10 @@ function mostrarRecetas(recetas = []) {
 
     //Almacenar en LocalStorage
     btnFavorito.onclick = function () {
+      if (existeStorage(idMeal)) {
+        return;
+      }
+
       agregarFavorito({
         id: idMeal,
         title: strMeal,
@@ -176,7 +180,12 @@ function mostrarRecetas(recetas = []) {
 
   function agregarFavorito(receta) {
     const favoritos = JSON.parse(localStorage.getItem("favoritos")) ?? [];
-    localStorage.setItem("favoritos", JSON.stringify(...favoritos, receta));
+    localStorage.setItem("favoritos", JSON.stringify([...favoritos, receta]));
+  }
+
+  function existeStorage(id) {
+    const favoritos = JSON.parse(localStorage.getItem("favoritos")) ?? [];
+    return favoritos.some((favorito) => favorito.id === id);
   }
 
   function limpiarHTML(selector) {
