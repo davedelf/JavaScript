@@ -1,7 +1,9 @@
 const resultado = document.querySelector("#resultado");
 const formulario = document.querySelector("#formulario");
+const paginacionDiv = document.querySelector("#paginacion");
 const registrosPorPagina = 40;
 let totalPaginas;
+let iterador;
 
 window.onload = () => {
   formulario.addEventListener("submit", validarFormulario);
@@ -49,16 +51,22 @@ function monstrarAlerta(mensaje) {
 
 function buscarImagenes(termino) {
   const key = "30887400-7fa880b212674e29983882b40";
-  const url = `https://pixabay.com/api/?key=${key}&q=${termino}&per_page=100`;
+  const url = `https://pixabay.com/api/?key=${key}&q=${termino}&per_page=${registrosPorPagina}`;
 
   fetch(url)
     .then((respuesta) => respuesta.json())
     .then((resultado) => {
-      console.log(resultado);
       totalPaginas = calcularPaginas(resultado.totalHits);
-      console.log(totalPaginas);
+
       mostrarImagenes(resultado.hits);
     });
+}
+
+//Generador que va a registrar la cantidad de elementos de acuerdo a las páginas
+function* crearPaginador(total) {
+  for (let i = 1; i <= total; i++) {
+    yield i;
+  }
 }
 
 function calcularPaginas(total) {
@@ -90,4 +98,41 @@ function mostrarImagenes(imagenes) {
     </div>
     `;
   });
+
+  //Limpiar paginador previo
+  while (paginacionDiv.firstChild) {
+    paginacionDiv.removeChild(paginacionDiv.firstChild);
+  }
+
+  //Generamos el nuevo html
+  imprimirPaginador();
+}
+
+function imprimirPaginador() {
+  iterador = crearPaginador(totalPaginas);
+
+  while (true) {
+    const { value, done } = iterador.next();
+    if (done) return;
+
+    //Caso contrario genera un boton por cada elemento en el generador
+    const boton = document.createElement("A");
+    boton.href = "#";
+    boton.dataset.pagina = value;
+    boton.textContent = value;
+    boton.classList.add(
+      "siguiente",
+      "bg-yellow-400",
+      "p-4",
+      "py-1",
+      "mr-2",
+      "font-bold",
+      "mb-4",
+      "uppercase",
+      "rounded",
+      
+    );
+
+    paginacionDiv.appendChild(boton);
+  }
 }
