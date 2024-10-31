@@ -15,8 +15,18 @@ function guardarCliente() {
   //Otra forma de validar campos con el array method some
   const camposVacios = [mesa, hora].some((campo) => campo === "");
   if (camposVacios) {
-    console.log("Si hay al menos un campo vacío");
-  } else {
-    console.log("Todos los campos están llenos");
-  }
+    const existeAlerta = document.querySelector(".invalid-feedback");
+    if (!existeAlerta) {
+      const alerta = document.createElement("DIV");
+      alerta.classList.add("invalid-feedback", "d-block", "text-center");
+      alerta.textContent = "Todos los campos son obligatorios";
+      document.querySelector(".modal-body form").appendChild(alerta);
+      setTimeout(() => {
+        alerta.remove();
+      }, 1000);
+    }
+    return
+  } 
+
+  console.log("Todos los campos están completos");
 }
