@@ -25,8 +25,19 @@ function guardarCliente() {
         alerta.remove();
       }, 1000);
     }
-    return
-  } 
+    return;
+  }
 
-  console.log("Todos los campos están completos");
+  //Asignar datos del formulario al cliente
+
+  //Colocamos primero el spread operator para que tome una copia del cliente y luego
+  //reescriba con los nuevos datos de mesa y hora, pero si lo colocamos al final resetea
+  //los campos del objeto y están vacíos.
+  cliente = { ...cliente, mesa, hora };
+
+  //Ocultar modal
+  const modalFormulario = document.querySelector("#formulario");
+  const modalBootstrap = bootstrap.Modal.getInstance(modalFormulario);
+  modalBootstrap.hide();
+  console.log(cliente);
 }
