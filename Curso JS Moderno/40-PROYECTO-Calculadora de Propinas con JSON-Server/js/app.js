@@ -40,4 +40,28 @@ function guardarCliente() {
   const modalBootstrap = bootstrap.Modal.getInstance(modalFormulario);
   modalBootstrap.hide();
   console.log(cliente);
+
+  //Mostrar secciones
+  mostrarSecciones();
+
+  //Obtener platillos de la API  de JSON-Server
+  obtenerPlatillos();
+}
+
+function mostrarSecciones() {
+  const seccionesOcultas = document.querySelectorAll(".d-none");
+  seccionesOcultas.forEach((seccion) => {
+    seccion.classList.remove("d-none");
+  });
+}
+
+function obtenerPlatillos() {
+  const url = "http://localhost:4000/platillos";
+
+  fetch(url)
+    .then((respuesta) => respuesta.json())
+    .then((resultado) => {
+      console.log(resultado);
+    })
+    .catch((error) => console.log(error));
 }
