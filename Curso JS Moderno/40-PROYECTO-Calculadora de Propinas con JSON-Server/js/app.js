@@ -138,8 +138,62 @@ function agregarPlatillo(producto) {
       cliente.pedido = [...pedido, producto];
     }
   } else {
-    console.log("No es mayor a cero");
+    //Eliminar elementos cuando la cantidad es cero
+    const resultado = pedido.filter((articulo) => articulo.id !== producto.id);
+    cliente.pedido = [...resultado];
   }
 
-  console.log(cliente.pedido);
+  //Limpiar html previo
+  limpiarHTML();
+  //Mostrar el resumen
+  actualizarResumen();
+}
+
+function actualizarResumen() {
+  const contenido = document.querySelector("#resumen .contenido");
+
+  const resumen = document.createElement("DIV");
+  resumen.classList.add("col-md-6", "card", "py-5", "px-3", "shadow");
+
+  //Información de la mesa
+  const mesa = document.createElement("P");
+  mesa.textContent = "Mesa: ";
+  mesa.classList.add("fw-bold");
+
+  const mesaSpan = document.createElement("SPAN");
+  mesaSpan.textContent = cliente.mesa;
+  mesaSpan.classList.add("fw-normal");
+  mesa.appendChild(mesaSpan);
+
+  //Información de la hora
+  const hora = document.createElement("P");
+  hora.textContent = "Hora: ";
+  hora.classList.add("fw-bold");
+
+  const horaSpan = document.createElement("SPAN");
+  horaSpan.textContent = cliente.hora;
+  horaSpan.classList.add("fw-normal");
+
+  mesa.appendChild(mesaSpan);
+  hora.appendChild(horaSpan);
+
+  //Titulo de la seccion
+  const heading = document.createElement("H3");
+  heading.textContent = "Platillos consumidos";
+  heading.classList.add("my-4", "text-center");
+
+  //Iterar sobre el array de pedidos
+
+  resumen.appendChild(mesa);
+  resumen.appendChild(hora);
+  resumen.appendChild(heading);
+
+  contenido.appendChild(resumen);
+}
+
+function limpiarHTML() {
+  const contenido = document.querySelector("#resumen .contenido");
+  while (contenido.firstChild) {
+    contenido.removeChild(contenido.firstChild);
+  }
 }
