@@ -93,7 +93,7 @@ function mostrarPlatillos(platillos) {
     inputCantidad.type = "number";
     inputCantidad.min = 0;
     inputCantidad.value = 0;
-    inputCantidad.id = `producto -${platillo.id}`;
+    inputCantidad.id = `producto-${platillo.id}`;
     inputCantidad.classList.add("form-control");
 
     //Funcion que detecta cantidad y platilo agregando
@@ -144,8 +144,12 @@ function agregarPlatillo(producto) {
 
   //Limpiar html previo
   limpiarHTML();
-  //Mostrar el resumen
-  actualizarResumen();
+
+  if (cliente.pedido.length) {
+    actualizarResumen();
+  } else {
+    mensajePedidoVacio();
+  }
 }
 
 function actualizarResumen() {
@@ -274,5 +278,22 @@ function eliminarProducto(id) {
   cliente.pedido = [...resultado];
 
   limpiarHTML();
-  actualizarResumen();
+  if (cliente.pedido.length) {
+    actualizarResumen();
+  } else {
+    mensajePedidoVacio();
+  }
+
+  //Producto se eliminó, por lo tanto regresamos la cantidad a 0 en el formulario
+  const productoEliminado = `#producto-${id}`;
+  const inputEliminado = document.querySelector(`${productoEliminado}`);
+  inputEliminado.value = 0;
+}
+
+function mensajePedidoVacio() {
+  const contenido = document.querySelector("#resumen .contenido");
+  const texto = document.createElement("P");
+  texto.classList.add("text-center");
+  texto.textContent = "Añade los elementos del pedido";
+  contenido.appendChild(texto);
 }
