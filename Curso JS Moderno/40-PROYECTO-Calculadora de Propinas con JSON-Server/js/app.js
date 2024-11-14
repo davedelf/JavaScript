@@ -45,7 +45,6 @@ function guardarCliente() {
   const modalFormulario = document.querySelector("#formulario");
   const modalBootstrap = bootstrap.Modal.getInstance(modalFormulario);
   modalBootstrap.hide();
-  console.log(cliente);
 
   //Mostrar secciones
   mostrarSecciones();
@@ -224,6 +223,16 @@ function actualizarResumen() {
     subtotalValor.classList.add("fw-normal");
     subtotalValor.textContent = calcularSubtotal(precio, cantidad);
 
+    //Boton para eliminar
+    const btnEliminar = document.createElement("BUTTON");
+    btnEliminar.classList.add("btn", "btn-danger");
+    btnEliminar.textContent = "Eliminar del pedido";
+
+    //Funcion para eliminar del pedido
+    btnEliminar.onclick = function () {
+      eliminarProducto(id);
+    };
+
     //Agregar valores a sus contenedores
     cantidadEl.appendChild(cantidadValor);
     precioEl.appendChild(precioValor);
@@ -234,6 +243,7 @@ function actualizarResumen() {
     lista.appendChild(cantidadEl);
     lista.appendChild(precioEl);
     lista.appendChild(subtotalEl);
+    lista.appendChild(btnEliminar);
 
     //Agregar lsita a grupo principal
     grupo.appendChild(lista);
@@ -256,4 +266,13 @@ function limpiarHTML() {
 
 function calcularSubtotal(precio, cantidad) {
   return `$${precio * cantidad}`;
+}
+
+function eliminarProducto(id) {
+  const { pedido } = cliente;
+  const resultado = pedido.filter((articulo) => articulo.id !== id);
+  cliente.pedido = [...resultado];
+
+  limpiarHTML();
+  actualizarResumen();
 }
