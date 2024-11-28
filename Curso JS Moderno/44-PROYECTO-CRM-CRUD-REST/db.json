@@ -1,11 +1,18 @@
 {
   "clientes": [
     {
-      "id": "67d9",
       "nombre": "David",
       "email": "davideliasdelfino@gmail.com",
       "telefono": "03535625706",
-      "empresa": "Claro"
+      "empresa": "Naranja",
+      "id": "67d9"
+    },
+    {
+      "nombre": "ROSA",
+      "email": "rosa@rosa.com",
+      "telefono": "444444",
+      "empresa": "Melano",
+      "id": "ef8c"
     }
   ]
 }

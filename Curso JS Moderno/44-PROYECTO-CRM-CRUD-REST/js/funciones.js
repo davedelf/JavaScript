@@ -15,15 +15,19 @@ export function mostrarAlerta(mensaje) {
       "text-center"
     );
 
-    alerta.innerHTML=`
+    alerta.innerHTML = `
         <strong class="font-bold>Error!</strong>
         <span class="block sm:inline">${mensaje}</span>
-    `
-    const formulario=document.querySelector("#formulario")
-    formulario.appendChild(alerta)
+    `;
+    const formulario = document.querySelector("#formulario");
+    formulario.appendChild(alerta);
 
     setTimeout(() => {
-        alerta.remove()
+      alerta.remove();
     }, 3000);
   }
+}
+
+export function validar(obj) {
+  return !Object.values(obj).every((input) => input !== "");
 }
