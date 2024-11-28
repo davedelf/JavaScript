@@ -14,7 +14,7 @@ function descargarClientes() {
   });
 }
 
-//Async Await
+//Async Await - Function Declaration
 async function ejecutar() {
   try {
     const respuesta = await descargarClientes(); //en lugar de usar then() lo asignamos a una constante
