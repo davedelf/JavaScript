@@ -1,3 +1,4 @@
+import { mostrarAlerta } from "./funciones.js";
 //Protejemos las variables para que solo sean accesibles dentro de este script
 
 (function () {
@@ -20,7 +21,7 @@
     };
 
     if (validar(cliente)) {
-      console.log("Todos los campos son obligatorios");
+      mostrarAlerta("Todos los campos son obligatorios");
       return;
     }
     console.log("Si se pasó la validación");
