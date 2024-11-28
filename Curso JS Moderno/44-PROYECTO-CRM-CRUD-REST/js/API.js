@@ -1,5 +1,6 @@
 const url = "http://localhost:4000/clientes";
 
+//Crea un nuevo cliente - POST
 export const nuevoCliente = async (cliente) => {
   try {
     await fetch(url, {
@@ -14,3 +15,16 @@ export const nuevoCliente = async (cliente) => {
     console.log(error);
   }
 };
+
+
+//Obtiene todos los clientes - GET
+export const obtenerClientes=async()=>{
+    try{
+        const resultado= await fetch(url)  //Por defecto fetch() envía un GET
+        const clientes=await resultado.json()
+        return clientes
+
+    }catch(error){
+        console.log(error);
+    }
+}
