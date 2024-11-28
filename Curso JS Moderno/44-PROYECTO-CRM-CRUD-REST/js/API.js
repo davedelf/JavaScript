@@ -16,15 +16,24 @@ export const nuevoCliente = async (cliente) => {
   }
 };
 
-
 //Obtiene todos los clientes - GET
-export const obtenerClientes=async()=>{
-    try{
-        const resultado= await fetch(url)  //Por defecto fetch() envía un GET
-        const clientes=await resultado.json()
-        return clientes
+export const obtenerClientes = async () => {
+  try {
+    const resultado = await fetch(url); //Por defecto fetch() envía un GET
+    const clientes = await resultado.json();
+    return clientes;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    }catch(error){
-        console.log(error);
-    }
-}
+//Elimina el cliente - DELETE
+export const eliminarCliente = async (id) => {
+  try {
+    await fetch(`${url}/${id}`, {
+      method: "DELETE",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
