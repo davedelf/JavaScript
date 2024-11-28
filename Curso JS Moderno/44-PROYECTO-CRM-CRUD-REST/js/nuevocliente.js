@@ -1,4 +1,5 @@
 import { mostrarAlerta } from "./funciones.js";
+import{nuevoCliente} from "./API.js"
 //Protejemos las variables para que solo sean accesibles dentro de este script
 
 (function () {
@@ -24,7 +25,7 @@ import { mostrarAlerta } from "./funciones.js";
       mostrarAlerta("Todos los campos son obligatorios");
       return;
     }
-    console.log("Si se pasó la validación");
+    nuevoCliente(cliente)
   }
 
   function validar(obj) {
