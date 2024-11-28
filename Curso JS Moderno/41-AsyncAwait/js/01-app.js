@@ -6,5 +6,3 @@ try{
 }
 console.log(2+2);
 
-// Comentario de prueba git
-
