@@ -1,3 +1,11 @@
 {
-  "clientes": []
+  "clientes": [
+    {
+      "id": "67d9",
+      "nombre": "David",
+      "email": "davideliasdelfino@gmail.com",
+      "telefono": "03535625706",
+      "empresa": "Claro"
+    }
+  ]
 }
