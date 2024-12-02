@@ -79,3 +79,5 @@ empleado.mostrarNombre();
 empleado.agregarEmail("empleado@empleado.com");
 empleado.mostrarEmail();
 empleado.mostrarPuesto();
+
+//De eso trata composition, en lugar de tener una clase con muchas funciones que luego se heredan vamos creando las funciones y las vamos asignando.
