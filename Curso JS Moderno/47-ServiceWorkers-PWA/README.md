@@ -21,3 +21,5 @@ Funciones No Disponibles en Service Worker
 - window (utiliza self)
 - document (utiliza caches)
 - localStorage(utiliza fetch)
+
+
