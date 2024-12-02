@@ -13,3 +13,9 @@ self.addEventListener("activate",e=>{
     
     console.log(e);
 })
+
+//Evento Fetch para descargar archivos estático
+
+self.addEventListener("fetch",e=>{
+    console.log("Fetch...",e);
+})
