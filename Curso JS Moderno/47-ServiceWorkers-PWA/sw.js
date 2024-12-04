@@ -3,6 +3,7 @@ const nombreCache = "apv-v1";
 const archivos = [
   "/47-ServiceWorkers-PWA/",
   "/47-ServiceWorkers-PWA/index.html",
+  "/47-ServiceWorkers-PWA/error.html",
   "/47-ServiceWorkers-PWA/css/bootstrap.css",
   "/47-ServiceWorkers-PWA/css/styles.css",
   "/47-ServiceWorkers-PWA/js/app.js",
@@ -36,4 +37,15 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   console.log("Fetch...", e);
+    e.respondWith(
+        caches.match(e.request)
+        .then(respuestaCache=>{
+            return respuestaCache
+        })
+        .catch(()=>caches.match("/error.html"))
+    )
 });
+
+
+  
+  
