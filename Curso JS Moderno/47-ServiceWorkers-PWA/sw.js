@@ -1,5 +1,5 @@
 //Cachear archivos
-const nombreCache = "apv-v1";
+const nombreCache = "apv-v4";
 const archivos = [
   "/47-ServiceWorkers-PWA/",
   "/47-ServiceWorkers-PWA/index.html",
@@ -30,22 +30,23 @@ self.addEventListener("install", (e) => {
 self.addEventListener("activate", (e) => {
   console.log("Service Worker Activado");
 
-  console.log(e);
+  e.waitUntil(  //Cahea la última versión y elimina las anteriores
+    caches.keys().then((keys) => {
+      return Promise.all(keys.filter((key) => key !== nombreCache))
+      .map(key=>caches.delete(key))
+    })
+  );
 });
 
 //Evento Fetch para descargar archivos estático
-
 self.addEventListener("fetch", (e) => {
   console.log("Fetch...", e);
-    e.respondWith(
-        caches.match(e.request)
-        .then(respuestaCache=>{
-            return respuestaCache
-        })
-        .catch(()=>caches.match("/error.html"))
-    )
+  e.respondWith(
+    caches
+      .match(e.request)
+      .then((respuestaCache) => {
+        return respuestaCache;
+      })
+      .catch(() => caches.match("/error.html"))
+  );
 });
-
-
-  
-  
