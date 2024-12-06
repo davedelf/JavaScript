@@ -44,7 +44,7 @@ const pablo = new Comprador("Pablo");
 const vendedor = new Vendedor("Vendedor de Autos");
 const subasta = new Subasta();
 
-//Registra los usuarios. Subasta sería el medidador
+//Registra los usuarios. Subasta sería el mediador
 subasta.registrar(juan);
 subasta.registrar(pablo);
 subasta.registrar(vendedor);
